@@ -1,43 +1,87 @@
 # git-media
 
-GitMedia extension allows you to use Git with large media files
+Git media allows you to use Git with large media files
 without storing the media in Git itself.
 
-## Note
+## How it works
 
-This experimental fork of the "old official git media"
-(schacon/git-media) exists because I don't (yet?) understand the
-rationale behind changes in the "new official git media"
-(alebedev/git-media).
+Media file types are defined in .gitattributes, and smudge/clean
+filters are then used to transform between a media file's hash and its
+contents. Only the hash is stored in git.
 
-## Configuration
+### Details
 
-Setup the attributes filter settings.
-
-	(once after install)
-	$ git config filter.media.clean "git-media filter-clean"
-	$ git config filter.media.smudge "git-media filter-smudge"
-
-Setup the `.gitattributes` file to map extensions to the filter.
-
-	(in repo - once)
-	$ echo "*.mov filter=media -crlf" > .gitattributes
-
-Staging files with those extensions will automatically copy them to the
+TODO: Staging files with those extensions will automatically copy them to the
 media buffer area (.git/media) until you run 'git media sync' wherein they
 are uploaded.  Checkouts that reference media you don't have yet will try to
 be automatically downloaded, otherwise they are downloaded when you sync.
 
-Next you need to configure git to tell it where you want to store the large files.
-There are four options:
+## Note
+
+This experimental fork of the "old official git media"
+(schacon/git-media) exists because I don't yet understand the
+rationale behind certain changes in the "new official git media"
+(alebedev/git-media). Maybe I'll catch up eventually :) 
+
+* alebedev/git-media: sync'd files are apparently never shown as being
+different (TODO: add issue at alebedev/git-media).
+
+## Installation
+
+TODO: unlikely to be right; needs updating, cleaning, and checking!
+
+### Prerequisites
+
+Required:
+
+* trollop
+
+Optional:
+
+* s3
+* ruby-atmos-pure
+* right_aws
+
+E.g. 
+   $ sudo gem install trollop
+
+   $ sudo gem install s3
+   $ sudo gem install ruby-atmos-pure
+   $ sudo gem install right_aws
+
+
+### Installation
+
+ $ gem build git-media.gemspec
+ $ sudo gem install git-media-0.1.1.gem
+
+
+## Configuration
+
+### Global 
+
+Tell git to use git-media's filters for media files:
+
+	$ git config filter.media.clean "git-media filter-clean"
+	$ git config filter.media.smudge "git-media filter-smudge"
+
+### Per repository
+
+* Tell git which files are media:
+
+	$ echo "*.mov filter=media -crlf" > .gitattributes
+
+* Tell git where to store the media.
+
+There are four options (NOTE: I am currently only using the local
+option, combined with external peer-to-peer sync):
 
 1. Storing remotely in Amazon's S3
 2. Storing locally in a filesystem path
 3. Storing remotely via SCP (should work with any SSH server)
 4. Storing remotely in atmos
 
-Here are the relevant sections that should go either in `~/.gitconfig` (for global settings)
-or in `clone/.git/config` (for per-repo settings).
+Add a relevant subset of the following to your repository's .git/config:
 
 ```ini
 [git-media]
@@ -63,37 +107,49 @@ or in `clone/.git/config` (for per-repo settings).
 	tag      = <atmos object tag>
 ```
 
+TODO: document the purpose of media.auto-download
 
 ## Usage
 
-	(in repo - repeatedly)
-	$ (hack, stage, commit)
+### Sharing your work
+
+Use your usual git workflow, eg:
+
+	$ git add newbigfile.mov
+        $ git commit -m "Something something."
+        $ git push
+
+Then upload your new/changed media:
+
 	$ git media sync
+
+### Getting other people's work
+
+Use your usual git workflow, eg:
+
+        $ git pull
+
+Then get new/changed media:
+
+        $ git media sync        
+
+
+### More 
 
 You can also check the status of your media files via
 
 	$ git media status
 
 Which will show you files that are waiting to be uploaded and how much data
-that is. If you want to upload & delete the local cache of media files, run:
+that is. 
+
+TODO: If you want to upload & delete the local cache of media files, run:
 
 	$ git media clear
 
-## Config Settings
-
-	$ git config --global media.auto-download false
-
-
-## Installing
-
-    $ sudo gem install trollop
-    $ sudo gem install s3
-    $ sudo gem install ruby-atmos-pure
-    $ sudo gem install right_aws
-    $ gem build git-media.gemspec
-    $ sudo gem install git-media-0.1.1.gem
-
 ## Notes for Windows
+
+TODO: need to update
 
 It is important to switch off git smart newline character support for media files.
 Use `-crlf` switch in `.gitattributes` (for example `*.mov filter=media -crlf`) or config option `core.autocrlf = false`.
@@ -107,6 +163,20 @@ And add at line 310, right before `@http.start`:
 
       @http.verify_mode     = OpenSSL::SSL::VERIFY_NONE
 
+## Release notes
+
+0.1.2.cb.0: initial version, no code changes from
+https://github.com/schacon/git-media/commit/42abe20ab95dd18e3f5e83fb190142abd36f2e3e
+
 ## Copyright
 
-Copyright (c) 2009 Scott Chacon. See LICENSE for details.
+Original work: Copyright (c) 2009 Scott Chacon. See LICENSE for details.
+
+Modified work: All changes from the original work are in the public
+domain, provided as-is, with no warranty of any kind expressed or
+implied.  Anyone is free to copy, modify, publish, use, compile, sell,
+or distribute the changes under any license, for any purpose,
+commercial or non-commercial, and by any means.
+
+
+
