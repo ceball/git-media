@@ -12,6 +12,7 @@ module GitMedia
         media_file = File.join(media_buffer, sha.chomp)
         if File.exists?(media_file)
           STDERR.puts('recovering media : ' + sha)
+          STDOUT.binmode
           File.open(media_file, 'r') do |f|
             while data = f.read(4096) do
               print data
@@ -21,12 +22,14 @@ module GitMedia
           # TODO: download file if not in the media buffer area
           if !can_download
             STDERR.puts('media missing, saving placeholder : ' + sha)
+            STDOUT.binmode
             puts sha
           end
         end
       else
         # if it is not a 40 character long hash, just output
         STDERR.puts('Unknown git-media file format')
+        STDOUT.binmode
         print sha
         while data = STDIN.read(4096)
           print data

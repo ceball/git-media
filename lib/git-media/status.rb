@@ -14,7 +14,8 @@ module GitMedia
     # find tree entries that are likely media references
     def self.find_references
       references = {:to_expand => [], :expanded => [], :deleted => []}
-      files = `git ls-tree -lz -r HEAD | tr "\\000" \\\\n`.split("\n")
+      # ls-tree -z terminates lines with \0 and doesn't replace TAB, LF, backslash in files 
+      files = `git ls-tree -lz -r HEAD`.split("\000")
       files = files.map { |f| s = f.split("\t"); [s[0].split(' ').last, s[1]] }
       files = files.select { |f| f[0] == '41' } # it's the right size
       files.each do |tree_size, fname|
