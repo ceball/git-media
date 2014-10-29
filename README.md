@@ -3,6 +3,13 @@
 GitMedia extension allows you to use Git with large media files
 without storing the media in Git itself.
 
+## Note
+
+This experimental fork of the "old official git media"
+(schacon/git-media) exists because I don't (yet?) understand the
+rationale behind changes in the "new official git media"
+(alebedev/git-media).
+
 ## Configuration
 
 Setup the attributes filter settings.
