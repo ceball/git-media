@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{git-media}
-  s.version = "0.1.2"
+  s.version = "0.1.2.cb.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Scott Chacon"]
-  s.date = %q{2009-06-10}
+  s.authors = ["Chris Ball"]
+  s.date = %q{2014-10-29}
   s.default_executable = %q{git-media}
-  s.email = %q{schacon@gmail.com}
+  s.email = %q{ceball@users.sourceforge.net}
   s.executables = ["git-media"]
   s.extra_rdoc_files = [
     "LICENSE",

@@ -11,10 +11,11 @@ contents. Only the hash is stored in git.
 
 ### Details
 
-TODO: Staging files with those extensions will automatically copy them to the
-media buffer area (.git/media) until you run 'git media sync' wherein they
-are uploaded.  Checkouts that reference media you don't have yet will try to
-be automatically downloaded, otherwise they are downloaded when you sync.
+TODO: edit/remove... Staging files with those extensions will automatically copy them
+to the media buffer area (.git/media) until you run 'git media sync'
+wherein they are uploaded.  Checkouts that reference media you don't
+have yet will try to be automatically downloaded, otherwise they are
+downloaded when you sync.
 
 ## Note
 
@@ -23,37 +24,52 @@ This experimental fork of the "old official git media"
 rationale behind certain changes in the "new official git media"
 (alebedev/git-media). Maybe I'll catch up eventually :) 
 
-* alebedev/git-media: sync'd files are apparently never shown as being
-different (TODO: add issue at alebedev/git-media).
+Claimed issues with alebedev/git-media:
+
+* sync'd files are apparently never shown as being different (TODO:
+add issue at alebedev/git-media).
+
+* TODO: (add the others)
+
+Claimed issues with schacon/git-media:
+
+* filename/string handling (windows, unicode, etc) TODO: clarify
 
 ## Installation
 
 TODO: unlikely to be right; needs updating, cleaning, and checking!
 
-### Prerequisites
+Requires:
 
-Required:
+* Git >= 2.0?
 
-* trollop
+* Ruby >= ? plus: trollop
 
-Optional:
+Optional (depending on transport required):
 
 * s3
 * ruby-atmos-pure
 * right_aws
 
-E.g. 
-   $ sudo gem install trollop
+E.g. Ubuntu users:
+ 
+        $ sudo apt-get install ruby 
 
-   $ sudo gem install s3
-   $ sudo gem install ruby-atmos-pure
-   $ sudo gem install right_aws
+   TODO: then ...? 
 
+        $ sudo gem install bundler
+        $ bundle install
+        $ gem build git-media.gemspec
+        $ sudo gem install git-media-0.1.2.cb.1.gem
 
-### Installation
+E.g. Windows users:
+   
+   TODO: ruby installer then ...?
 
- $ gem build git-media.gemspec
- $ sudo gem install git-media-0.1.1.gem
+        $ gem install bundler
+        $ bundle install
+        $ gem build git-media.gemspec
+        $ gem install git-media-0.1.2.cb.1.gem
 
 
 ## Configuration
@@ -111,6 +127,8 @@ TODO: document the purpose of media.auto-download
 
 ## Usage
 
+Summary: do `git media sync` after clone, push, pull.
+
 ### Sharing your work
 
 Use your usual git workflow, eg:
@@ -134,6 +152,10 @@ Then get new/changed media:
         $ git media sync        
 
 
+TODO: Might be room for improvement (e.g. git status/diff could
+indicate when diffs are from unexpanded media rather than changed
+media, although git status tells you this).
+
 ### More 
 
 You can also check the status of your media files via
@@ -147,14 +169,14 @@ TODO: If you want to upload & delete the local cache of media files, run:
 
 	$ git media clear
 
-## Notes for Windows
+## Troubleshooting
 
 TODO: need to update
 
-It is important to switch off git smart newline character support for media files.
+(Windows) It is important to switch off git smart newline character support for media files.
 Use `-crlf` switch in `.gitattributes` (for example `*.mov filter=media -crlf`) or config option `core.autocrlf = false`.
 
-If installing on windows, you might run into a problem verifying certificates
+(Windows) You might run into a problem verifying certificates
 for S3 or something. If that happens, modify
 
 	C:\Ruby191\lib\ruby\gems\1.9.1\gems\right_http_connection-1.2.4\lib\right_http_connection.rb
@@ -165,7 +187,14 @@ And add at line 310, right before `@http.start`:
 
 ## Release notes
 
-0.1.2.cb.0: initial version, no code changes from
+### 0.1.2.cb.1
+
+* Fixed handling of line endings in smudge and clean filters
+* Fixed finding references on Windows
+
+### 0.1.2.cb.0: initial (unreleased) version
+
+* No code changes from
 https://github.com/schacon/git-media/commit/42abe20ab95dd18e3f5e83fb190142abd36f2e3e
 
 ## Copyright
