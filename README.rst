@@ -172,6 +172,9 @@ Release notes
 * Fixed handling of line endings in smudge and clean filters
 * Fixed finding references on Windows
 
+A full list of changes since the previous release is available 
+`on GitHub <https://github.com/ceball/git-media/compare/v0.1.2.cb.0...v0.1.2.cb.1>`_.
+
 0.1.2.cb.0
 ~~~~~~~~~~~~~~~~~~~~
 
