@@ -82,9 +82,9 @@ so this may not be the best advice!)::
 Configuration
 --------------------
 
-Configuration involves (globally) telling git to invoke git-media's
-filters for media files, and (per-repository) telling git which files
-are media.
+Configuration involves telling git to invoke git-media's
+filters for media files (typically a global setting), and telling git which files
+are media (typically a per-repository setting).
 
 Global
 ~~~~~~~~~~~~~~~~~~~~
@@ -93,6 +93,8 @@ Tell git to use git-media's filters for media files::
 
         $ git config filter.media.clean "git-media filter-clean"
         $ git config filter.media.smudge "git-media filter-smudge"
+
+Note that you can instead set these in an individual repository's ``.git/config``.
 
 Per repository
 ~~~~~~~~~~~~~~~~~~~~
@@ -139,7 +141,6 @@ to your repository's ``.git/config``::
       uid      = <atmos_uid>
       secret   = <atmos secret key>
       tag      = <atmos object tag>
-
 
 
 Usage
