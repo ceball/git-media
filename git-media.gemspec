@@ -12,13 +12,13 @@ Gem::Specification.new do |s|
   s.executables = ["git-media"]
   s.extra_rdoc_files = [
     "LICENSE",
-     "README.md"
+     "README.rst"
   ]
   s.files = [
     ".document",
      ".gitignore",
      "LICENSE",
-     "README.md",
+     "README.rst",
      "Rakefile",
      "VERSION",
      "bin/git-media",
@@ -37,11 +37,11 @@ Gem::Specification.new do |s|
      "lib/git-media.rb"
   ]
   s.has_rdoc = true
-  s.homepage = %q{http://github.com/schacon/git-media}
+  s.homepage = %q{http://github.com/ceball/git-media}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{"This is a summary! Stop yer whining"}
+  s.summary = %q{"This is a summary"}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
@@ -53,4 +53,3 @@ Gem::Specification.new do |s|
   else
   end
 end
-

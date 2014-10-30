@@ -1,8 +1,8 @@
 git-media
 ====================
 
-Git media allows you to use Git with large media files
-without storing the media in Git itself.
+Git media allows you to use Git with large ("media") files without
+storing the files in Git itself.
 
 .. contents::
 
@@ -10,71 +10,53 @@ without storing the media in Git itself.
 How it works
 --------------------
 
-Media file types are defined in .gitattributes, and smudge/clean
-filters are then used to transform between a media file's hash and its
-contents. Only the hash is stored in git.
+Media file types (e.g. *.mov) are defined in .gitattributes, and
+smudge/clean filters are then used to transform between a media file's
+hash and its contents (presenting the hash to git, but the contents to
+the file system).
 
-Details
-~~~~~~~~~~~~~~~~~~~~
-
-TODO: edit/remove... Staging files with those extensions will automatically copy them
-to the media buffer area (.git/media) until you run 'git media sync'
-wherein they are uploaded.  Checkouts that reference media you don't
-have yet will try to be automatically downloaded, otherwise they are
-downloaded when you sync.
 
 Note about fork
 --------------------
 
-This experimental fork of the "old official git media"
-(schacon/git-media) exists because I don't yet understand the
-rationale behind certain changes in the "new official git media"
-(alebedev/git-media). Maybe I'll catch up eventually :) 
+This fork of the "old official git media" (schacon/git-media) exists
+because I don't yet understand the rationale behind certain changes in
+the "new official git media" (alebedev/git-media). Maybe I'll catch up
+eventually :)
 
-Claimed issues with alebedev/git-media:
-
-* sync'd files are apparently never shown as being different (TODO:
-add issue at alebedev/git-media).
-
-* TODO: (add the others)
-
-Claimed issues with schacon/git-media:
-
-* filename/string handling (windows, unicode, etc) TODO: clarify
 
 Installation
 --------------------
 
-TODO: unlikely to be right; needs updating, cleaning, and checking!
-
 Requires:
 
-* Git >= 2.0?
+- Git >= ? (Windows: git bash, not cmd.exe)
+- Ruby >= ? 
+- Ruby gem: trollop
 
-* Ruby >= ? plus: trollop
+Optional, depending on transport required (see configuration, below):
 
-Optional (depending on transport required):
+- s3
+- ruby-atmos-pure
+- right_aws
+- net_dav
 
-* s3
-* ruby-atmos-pure
-* right_aws
+Example installation on Ubuntu (note: I am a novice Ruby
+programmer, so this may not be the best advice!)::
 
-E.g. Ubuntu users:
- 
-        $ sudo apt-get install ruby 
-
-   TODO: then ...? 
-
+        $ sudo apt-get install ruby
         $ sudo gem install bundler
+
         $ bundle install
         $ gem build git-media.gemspec
         $ sudo gem install git-media-0.1.2.cb.1.gem
 
-E.g. Windows users:
+Example installation on Windows (note: I am a novice Ruby programmer,
+so this may not be the best advice!)::
    
-   TODO: ruby installer then ...?
-
+        # (ruby installer)
         $ gem install bundler
+
         $ bundle install
         $ gem build git-media.gemspec
         $ gem install git-media-0.1.2.cb.1.gem
@@ -83,58 +65,64 @@ E.g. Windows users:
 Configuration
 --------------------
 
+Configuration involves (globally) telling git to invoke git-media's
+filters for media files, and (per-repository) telling git which files
+are media.
+
 Global
 ~~~~~~~~~~~~~~~~~~~~
 
-Tell git to use git-media's filters for media files:
+Tell git to use git-media's filters for media files::
 
-	$ git config filter.media.clean "git-media filter-clean"
-	$ git config filter.media.smudge "git-media filter-smudge"
+        $ git config filter.media.clean "git-media filter-clean"
+        $ git config filter.media.smudge "git-media filter-smudge"
 
 Per repository
 ~~~~~~~~~~~~~~~~~~~~
 
-* Tell git which files are media:
+First, tell git which files are media::
 
-	$ echo "*.mov filter=media -crlf" > .gitattributes
+        $ echo "*.mov filter=media -crlf" >> .gitattributes
 
-* Tell git where to store the media.
+Note that you should disable git's smart newline support for media
+files (i.e. use `-crlf`).
 
-There are four options (NOTE: I am currently only using the local
-option, combined with external peer-to-peer sync):
+Second, tell git where to store the media. There are four options
+(NOTE: I am currently only using the local option, combined with
+external peer-to-peer sync, so the others should be considered
+untested):
 
-1. Storing remotely in Amazon's S3
-2. Storing locally in a filesystem path
-3. Storing remotely via SCP (should work with any SSH server)
+1. Storing locally
+2. Storing remotely in Amazon's S3
+3. Storing remotely via SCP
 4. Storing remotely in atmos
 
-Add a relevant subset of the following to your repository's .git/config:
+Depending on the option chosen, add a relevant subset of the following
+to your repository's `.git/config`::
 
-```ini
 [git-media]
-	transport = <scp|local|s3|atmos>
+    transport = <scp|local|s3|atmos>
 
-	# settings for scp transport
-	scpuser = <user>
-	scphost = <host>
-	scppath = <path_on_remote_server>
+    # settings for local transport
+    path = <local_filesystem_path>
 
-	# settings for local transport
-	path = <local_filesystem_path>
+    # settings for scp transport
+    scpuser = <user>
+    scphost = <host>
+    scppath = <path_on_remote_server>
 
-	# settings for s3 transport
-	s3bucket = <name_of_bucket>
-	s3key    = <s3 access key>
-	s3secret = <s3 secret key>
+    # settings for s3 transport
+    s3bucket = <name_of_bucket>
+    s3key    = <s3 access key>
+    s3secret = <s3 secret key>
 
-	# settings for atmos transport
-	endpoint = <atmos server>
-	uid      = <atmos_uid>
-	secret   = <atmos secret key>
-	tag      = <atmos object tag>
-```
+    # settings for atmos transport
+    endpoint = <atmos server>
+    uid      = <atmos_uid>
+    secret   = <atmos secret key>
+    tag      = <atmos object tag>
 
-TODO: document the purpose of media.auto-download
+
 
 Usage
 --------------------
@@ -144,62 +132,35 @@ Summary: do `git media sync` after clone, push, pull.
 Sharing your work
 ~~~~~~~~~~~~~~~~~~~~
 
-Use your usual git workflow, eg:
+Use your usual git workflow, eg::
 
 	$ git add newbigfile.mov
         $ git commit -m "Something something."
         $ git push
 
-Then upload your new/changed media:
+Then upload your new/changed media::
 
-	$ git media sync
+        $ git media sync
 
 Getting other people's work
 ~~~~~~~~~~~~~~~~~~~~
 
-Use your usual git workflow, eg:
+Use your usual git workflow, eg::
 
         $ git pull
 
-Then get new/changed media:
+Then get new/changed media::
 
-        $ git media sync        
+        $ git media sync    
 
-
-TODO: Might be room for improvement (e.g. git status/diff could
-indicate when diffs are from unexpanded media rather than changed
-media, although git status tells you this).
 
 More
 ~~~~~~~~~~~~~~~~~~~~
 
-You can also check the status of your media files via
+You can check the status of your media files via::
 
 	$ git media status
 
-Which will show you files that are waiting to be uploaded and how much data
-that is. 
-
-TODO: If you want to upload & delete the local cache of media files, run:
-
-	$ git media clear
-
-Troubleshooting
---------------------
-
-TODO: need to update
-
-(Windows) It is important to switch off git smart newline character support for media files.
-Use `-crlf` switch in `.gitattributes` (for example `*.mov filter=media -crlf`) or config option `core.autocrlf = false`.
-
-(Windows) You might run into a problem verifying certificates
-for S3 or something. If that happens, modify
-
-	C:\Ruby191\lib\ruby\gems\1.9.1\gems\right_http_connection-1.2.4\lib\right_http_connection.rb
-
-And add at line 310, right before `@http.start`:
-
-      @http.verify_mode     = OpenSSL::SSL::VERIFY_NONE
 
 Release notes
 --------------------
@@ -226,6 +187,3 @@ domain, provided as-is, with no warranty of any kind expressed or
 implied.  Anyone is free to copy, modify, publish, use, compile, sell,
 or distribute the changes under any license, for any purpose,
 commercial or non-commercial, and by any means.
-
-
-
