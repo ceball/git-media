@@ -10,7 +10,7 @@ storing the files in Git itself.
 How it works
 --------------------
 
-Media file types (e.g. *.mov) are defined in .gitattributes, and
+Media file types (e.g. .mov) are defined in .gitattributes, and
 smudge/clean filters are then used to transform between a media file's
 hash and its contents (presenting the hash to git, but the contents to
 the file system).
@@ -85,7 +85,7 @@ First, tell git which files are media::
         $ echo "*.mov filter=media -crlf" >> .gitattributes
 
 Note that you should disable git's smart newline support for media
-files (i.e. use `-crlf`).
+files (i.e. use ``-crlf``).
 
 Second, tell git where to store the media. There are four options
 (NOTE: I am currently only using the local option, combined with
@@ -98,43 +98,44 @@ untested):
 4. Storing remotely in atmos
 
 Depending on the option chosen, add a relevant subset of the following
-to your repository's `.git/config`::
+to your repository's ``.git/config``::
 
-[git-media]
-    transport = <scp|local|s3|atmos>
+    [git-media]
 
-    # settings for local transport
-    path = <local_filesystem_path>
+      transport = <scp|local|s3|atmos>
 
-    # settings for scp transport
-    scpuser = <user>
-    scphost = <host>
-    scppath = <path_on_remote_server>
+      # settings for local transport
+      path = <local_filesystem_path>
 
-    # settings for s3 transport
-    s3bucket = <name_of_bucket>
-    s3key    = <s3 access key>
-    s3secret = <s3 secret key>
+      # settings for scp transport
+      scpuser = <user>
+      scphost = <host>
+      scppath = <path_on_remote_server>
 
-    # settings for atmos transport
-    endpoint = <atmos server>
-    uid      = <atmos_uid>
-    secret   = <atmos secret key>
-    tag      = <atmos object tag>
+      # settings for s3 transport
+      s3bucket = <name_of_bucket>
+      s3key    = <s3 access key>
+      s3secret = <s3 secret key>
+
+      # settings for atmos transport
+      endpoint = <atmos server>
+      uid      = <atmos_uid>
+      secret   = <atmos secret key>
+      tag      = <atmos object tag>
 
 
 
 Usage
 --------------------
 
-Summary: do `git media sync` after clone, push, pull.
+Summary: use ``git media sync`` after clone, push, pull.
 
 Sharing your work
 ~~~~~~~~~~~~~~~~~~~~
 
 Use your usual git workflow, eg::
 
-	$ git add newbigfile.mov
+        $ git add newbigfile.mov
         $ git commit -m "Something something."
         $ git push
 
@@ -143,7 +144,7 @@ Then upload your new/changed media::
         $ git media sync
 
 Getting other people's work
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use your usual git workflow, eg::
 
@@ -174,8 +175,7 @@ Release notes
 0.1.2.cb.0
 ~~~~~~~~~~~~~~~~~~~~
 
-* Initial (unreleased) version; no code changes from
-https://github.com/schacon/git-media/commit/42abe20ab95dd18e3f5e83fb190142abd36f2e3e
+* Initial (unreleased) version; no code changes from https://github.com/schacon/git-media/commit/42abe20ab95dd18e3f5e83fb190142abd36f2e3e
 
 Copyright
 --------------------
