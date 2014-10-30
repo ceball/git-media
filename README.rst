@@ -68,7 +68,7 @@ programmer, so this may not be the best advice!)::
         $ gem build git-media.gemspec
         $ sudo gem install git-media-0.1.2.cb.1.gem
 
-Example installation on Windows (note: I am a novice Ruby programmer,
+Example installation on Windows git bash (note: I am a novice Ruby programmer,
 so this may not be the best advice!)::
    
         # (ruby installer)
