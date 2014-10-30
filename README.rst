@@ -30,9 +30,26 @@ Installation
 
 Requires:
 
-- Git >= ? (Windows: git bash, not cmd.exe)
-- Ruby >= ? 
-- Ruby gem: trollop
+- Git >= 1.9?
+
+  - Tested ok: 
+
+    - linux git 2.1.1
+    - windows git bash Git-1.9.4-preview20140929
+
+  - Tested not ok: 
+
+    - windows git bash Git-1.8.4-preview20130916 (filters don't run?)
+
+- Ruby >= 1.9?
+
+  - Tested ok:
+  
+    - linux ruby 1.9.1
+    - windows ruby 2.1.4
+
+- Ruby gem: trollop >= ?
+
 
 Optional, depending on transport required (see configuration, below):
 
