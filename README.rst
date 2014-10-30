@@ -1,15 +1,21 @@
-# git-media
+git-media
+====================
 
 Git media allows you to use Git with large media files
 without storing the media in Git itself.
 
-## How it works
+.. contents::
+
+
+How it works
+--------------------
 
 Media file types are defined in .gitattributes, and smudge/clean
 filters are then used to transform between a media file's hash and its
 contents. Only the hash is stored in git.
 
-### Details
+Details
+~~~~~~~~~~~~~~~~~~~~
 
 TODO: edit/remove... Staging files with those extensions will automatically copy them
 to the media buffer area (.git/media) until you run 'git media sync'
@@ -17,7 +23,8 @@ wherein they are uploaded.  Checkouts that reference media you don't
 have yet will try to be automatically downloaded, otherwise they are
 downloaded when you sync.
 
-## Note
+Note about fork
+--------------------
 
 This experimental fork of the "old official git media"
 (schacon/git-media) exists because I don't yet understand the
@@ -35,7 +42,8 @@ Claimed issues with schacon/git-media:
 
 * filename/string handling (windows, unicode, etc) TODO: clarify
 
-## Installation
+Installation
+--------------------
 
 TODO: unlikely to be right; needs updating, cleaning, and checking!
 
@@ -72,16 +80,19 @@ E.g. Windows users:
         $ gem install git-media-0.1.2.cb.1.gem
 
 
-## Configuration
+Configuration
+--------------------
 
-### Global 
+Global
+~~~~~~~~~~~~~~~~~~~~
 
 Tell git to use git-media's filters for media files:
 
 	$ git config filter.media.clean "git-media filter-clean"
 	$ git config filter.media.smudge "git-media filter-smudge"
 
-### Per repository
+Per repository
+~~~~~~~~~~~~~~~~~~~~
 
 * Tell git which files are media:
 
@@ -125,11 +136,13 @@ Add a relevant subset of the following to your repository's .git/config:
 
 TODO: document the purpose of media.auto-download
 
-## Usage
+Usage
+--------------------
 
 Summary: do `git media sync` after clone, push, pull.
 
-### Sharing your work
+Sharing your work
+~~~~~~~~~~~~~~~~~~~~
 
 Use your usual git workflow, eg:
 
@@ -141,7 +154,8 @@ Then upload your new/changed media:
 
 	$ git media sync
 
-### Getting other people's work
+Getting other people's work
+~~~~~~~~~~~~~~~~~~~~
 
 Use your usual git workflow, eg:
 
@@ -156,7 +170,8 @@ TODO: Might be room for improvement (e.g. git status/diff could
 indicate when diffs are from unexpanded media rather than changed
 media, although git status tells you this).
 
-### More 
+More
+~~~~~~~~~~~~~~~~~~~~
 
 You can also check the status of your media files via
 
@@ -169,7 +184,8 @@ TODO: If you want to upload & delete the local cache of media files, run:
 
 	$ git media clear
 
-## Troubleshooting
+Troubleshooting
+--------------------
 
 TODO: need to update
 
@@ -185,19 +201,23 @@ And add at line 310, right before `@http.start`:
 
       @http.verify_mode     = OpenSSL::SSL::VERIFY_NONE
 
-## Release notes
+Release notes
+--------------------
 
-### 0.1.2.cb.1
+0.1.2.cb.1
+~~~~~~~~~~~~~~~~~~~~
 
 * Fixed handling of line endings in smudge and clean filters
 * Fixed finding references on Windows
 
-### 0.1.2.cb.0: initial (unreleased) version
+0.1.2.cb.0
+~~~~~~~~~~~~~~~~~~~~
 
-* No code changes from
+* Initial (unreleased) version; no code changes from
 https://github.com/schacon/git-media/commit/42abe20ab95dd18e3f5e83fb190142abd36f2e3e
 
-## Copyright
+Copyright
+--------------------
 
 Original work: Copyright (c) 2009 Scott Chacon. See LICENSE for details.
 
