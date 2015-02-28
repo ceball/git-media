@@ -91,10 +91,10 @@ Global
 
 Tell git to use git-media's filters for media files::
 
-        $ git config filter.media.clean "git-media filter-clean"
-        $ git config filter.media.smudge "git-media filter-smudge"
+        $ git config filter.media.clean "git-media filter-clean" --global
+        $ git config filter.media.smudge "git-media filter-smudge" --global
 
-Note that you can instead set these in an individual repository's ``.git/config``.
+Note that you can instead set these in an individual repository (run from the repository and omit ``--global``).
 
 Per repository
 ~~~~~~~~~~~~~~~~~~~~
